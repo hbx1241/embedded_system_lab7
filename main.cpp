@@ -43,8 +43,6 @@ this example is not giving better SNR ...
  * are defined externally in arm_fir_lpf_data.c.
  * ------------------------------------------------------------------- */
 
-extern float32_t testInput_f32_1kHz_15kHz[TEST_LENGTH_SAMPLES];
-extern float32_t refOutput[TEST_LENGTH_SAMPLES];
 
 /* -------------------------------------------------------------------
  * Declare Test output buffer
@@ -102,8 +100,7 @@ void readData()
     for (int i = 0; i < TEST_LENGTH_SAMPLES; i++) {
         BSP_GYRO_GetXYZ(pGyroDataXYZ);
         sensor_input[i] = pGyroDataXYZ[0];
-        printf("%.2f ", sensor_input[i]);
-        ThisThread::sleep_for(10ms);
+        ThisThread::sleep_for(50ms);
     }
 }
 
@@ -119,7 +116,7 @@ int32_t main(void)
   outputF32 = &testOutput[0];
 
   printf("here!");
-  BSP_GYRO_GetXYZ(pGyroDataXYZ);
+  BSP_GYRO_Init();
   //queue.call_every(10ms, BSP_ACCELERO_AccGetXYZ, pDataXYZ);
   /* Call FIR init function to initialize the instance structure. */
   arm_fir_init_f32(&S, NUM_TAPS, (float32_t *)&firCoeffs32[0], &firStateF32[0], blockSize);
@@ -137,14 +134,19 @@ int32_t main(void)
   ** Compare the generated output against the reference output computed
   ** in MATLAB.
   ** ------------------------------------------------------------------- */
-  printf("here!");
+  printf("here!\n");
     for(int i = 0; i < TEST_LENGTH_SAMPLES; i++) {
         if (sensor_input[i] != outputF32[i])
-            printf("%.2f %.2f\n", sensor_input[i], outputF32[i]);
+            printf("%f\n", sensor_input[i]);
     }
-  snr = arm_snr_f32(&refOutput[0], &testOutput[0], TEST_LENGTH_SAMPLES);
+    printf("\n");
+    for(int i = 0; i < TEST_LENGTH_SAMPLES; i++) {
+        if (sensor_input[i] != outputF32[i])
+            printf("%f\n", outputF32[i]);
+    }
+  //snr = arm_snr_f32(&refOutput[0], &testOutput[0], TEST_LENGTH_SAMPLES);
 
-  status = (snr < SNR_THRESHOLD_F32) ? ARM_MATH_TEST_FAILURE : ARM_MATH_SUCCESS;
+  //status = (snr < SNR_THRESHOLD_F32) ? ARM_MATH_TEST_FAILURE : ARM_MATH_SUCCESS;
   
   if (status != ARM_MATH_SUCCESS)
   {
