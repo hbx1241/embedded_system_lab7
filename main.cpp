@@ -115,7 +115,6 @@ int32_t main(void)
   inputF32 = &sensor_input[0];
   outputF32 = &testOutput[0];
 
-  printf("here!");
   BSP_GYRO_Init();
   //queue.call_every(10ms, BSP_ACCELERO_AccGetXYZ, pDataXYZ);
   /* Call FIR init function to initialize the instance structure. */
@@ -134,15 +133,13 @@ int32_t main(void)
   ** Compare the generated output against the reference output computed
   ** in MATLAB.
   ** ------------------------------------------------------------------- */
-  printf("here!\n");
+
     for(int i = 0; i < TEST_LENGTH_SAMPLES; i++) {
-        if (sensor_input[i] != outputF32[i])
-            printf("%f\n", sensor_input[i]);
+        printf("%f\n", sensor_input[i]);
     }
     printf("\n");
     for(int i = 0; i < TEST_LENGTH_SAMPLES; i++) {
-        if (sensor_input[i] != outputF32[i])
-            printf("%f\n", outputF32[i]);
+        printf("%f\n", outputF32[i]);
     }
   //snr = arm_snr_f32(&refOutput[0], &testOutput[0], TEST_LENGTH_SAMPLES);
 
