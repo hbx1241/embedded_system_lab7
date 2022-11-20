@@ -110,6 +110,7 @@ int32_t main(void)
   arm_fir_instance_f32 S;
   arm_status status;
   float32_t  *inputF32, *outputF32;
+  Timer t;
 
   /* Initialize input and output buffer pointers */
   inputF32 = &sensor_input[0];
@@ -119,7 +120,9 @@ int32_t main(void)
   //queue.call_every(10ms, BSP_ACCELERO_AccGetXYZ, pDataXYZ);
   /* Call FIR init function to initialize the instance structure. */
   arm_fir_init_f32(&S, NUM_TAPS, (float32_t *)&firCoeffs32[0], &firStateF32[0], blockSize);
+  t.start();
     readData();
+ printf("time elapsed: %llu us \n", t.elapsed_time().count());
   /* ----------------------------------------------------------------------
   ** Call the FIR process function for every blockSize samples
   ** ------------------------------------------------------------------- */
