@@ -11,4 +11,4 @@
 程式結束執行以後(預設收集約16秒的sensor資料)，可以在mbed studio的terminal上觀察到input和output的數值。透過excel等工具可以把資料畫出來觀察
 ## Demo
 下面這張圖標示了輸入fir low pass filter的資料和輸出的資料，藍色是沒有被處理過的，而紅色則是被處理過的。
-![image](https://github.com/hbx1241/embedded_system_lab7/tree/main/demo/chart.svg)
+![image](https://github.com/hbx1241/embedded_system_lab7/tree/main/demo/chart.png)
